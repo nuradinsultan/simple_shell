@@ -158,3 +158,4 @@ char *_which(appData_t *prmData);
 int _wordNumber(char *prmString, char *prmSeparators);
 
 #endif
+ 
