@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 /**
  * checkifworkingdirectory - check if the path contains current directory
  *
