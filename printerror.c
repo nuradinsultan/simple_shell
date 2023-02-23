@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 /**
  * printerror - prints an error message on stderr
  *
