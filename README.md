@@ -1,8 +1,9 @@
+Project Simple Shell
+This project is an alx school group exercise in C for trainning.
+ We did a UNIX command interpreter in C at three.
+ The creater of this repository are:
+ nuredin Sultan 
+     and
+Kedir Abate 
 
-# simple_shell
-
-Description
-
-hsh is a simple UNIX command language interpreter that reads commands from either a file or standard input and executes
-
-# simple_shell
+We have to do 8 mandatory task and 15 advanced task.
