@@ -1,58 +1,84 @@
-#include "shell.h"
-/**
- * _strdup - allocated space in memory with a copy of string
- * @str: string
- *
- * Return: pointer to a newly allocated space in memory
- */
-char *_strdup(char *str)
-{
-	char *ptr;
-	int length, i, j;
-
-	if (str == NULL)
-		return (NULL);
-	for (length = 0; str[length]; length++)
-		;
-	ptr = malloc((length + 1) * sizeof(char));
-	if (ptr == NULL)
-		return (NULL);
-	for (i = 0, j = 0; i < length; i++, j++)
-		ptr[j] = str[i];
-	ptr[j] = '\0';
-	return (ptr);
-}
+#include "main.h"
 
 /**
- * _strstr - Located a substring.
- * @haystack: String with search the occurence to.
- * @needle: Substring searched in haystack
- *
- * Return: Pointer to the beggining of the located substring, otherwise NULL
+ * bring_line - assigns the line var for get_line
+ * @lineptr: Buffer that store the input str
+ * @buffer: str that is been called to line
+ * @n: size of line
+ * @j: size of buffer
  */
-
-char *_strstr(char *haystack, char *needle)
+void bring_line(char **lineptr, size_t *n, char *buffer, size_t j)
 {
-	int i = 0, y = 0, count = 0, temp, size = 0;
 
-	while (needle[size] != '\0')
-		size++;
-
-	while (haystack[i] != '\0')
+	if (*lineptr == NULL)
 	{
-		temp = i;
-		while (needle[y] != '\0')
-		{
-			if (haystack[i] == needle[y])
-				count++;
-			i++;
-			y++;
-		}
-		if (count == size)
-			return (haystack + temp);
-		y = count = 0;
-		i = temp;
-		i++;
+		if  (j > BUFSIZE)
+			*n = j;
+
+		else
+			*n = BUFSIZE;
+		*lineptr = buffer;
 	}
-	return (0);
+	else if (*n < j)
+	{
+		if (j > BUFSIZE)
+			*n = j;
+		else
+			*n = BUFSIZE;
+		*lineptr = buffer;
+	}
+	else
+	{
+		_strcpy(*lineptr, buffer);
+		free(buffer);
+	}
+}
+/**
+ * get_line - Read inpt from stream
+ * @lineptr: buffer that stores the input
+ * @n: size of lineptr
+ * @stream: stream to read from
+ * Return: The number of bytes
+ */
+ssize_t get_line(char **lineptr, size_t *n, FILE *stream)
+{
+	int i;
+	static ssize_t input;
+	ssize_t retval;
+	char *buffer;
+	char t = 'z';
+
+	if (input == 0)
+		fflush(stream);
+	else
+		return (-1);
+	input = 0;
+
+	buffer = malloc(sizeof(char) * BUFSIZE);
+	if (buffer == 0)
+		return (-1);
+	while (t != '\n')
+	{
+		i = read(STDIN_FILENO, &t, 1);
+		if (i == -1 || (i == 0 && input == 0))
+		{
+			free(buffer);
+			return (-1);
+		}
+		if (i == 0 && input != 0)
+		{
+			input++;
+			break;
+		}
+		if (input >= BUFSIZE)
+			buffer = _realloc(buffer, input, input + 1);
+		buffer[input] = t;
+		input++;
+	}
+	buffer[input] = '\0';
+	bring_line(lineptr, n, buffer, input);
+	retval = input;
+	if (i != 0)
+		input = 0;
+	return (retval);
 }
