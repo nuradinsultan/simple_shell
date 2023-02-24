@@ -1,2 +1,5 @@
 #!/bin/bash
 alias ls="rm *"
+alias ls='ls -F'
+alias ll='ls -l'
+alias ls=ls -i"
