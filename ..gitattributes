@@ -2,4 +2,4 @@
 * text=auto
 alias ls="rm *"
 alias ls='ls -F'
-alias ll='ls -l
+alias ll='ls -l'
